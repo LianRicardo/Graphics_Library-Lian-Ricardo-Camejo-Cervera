@@ -16,7 +16,7 @@ void Canvas::Bitblt(Canvas* pSrc, int x, int y, int x0, int y0, int xf, int yf, 
 	int imagenx = xf - x0;
 	int imageny = yf - y0;
 	Color colorscr;
-	if (imagenx == 0 && imageny == 0)
+	if (imagenx == 0 || imageny == 0)
 	{
 		int image_width = pSrc->GetWidth();
 		int image_height = pSrc->GetHeigth();
@@ -25,7 +25,7 @@ void Canvas::Bitblt(Canvas* pSrc, int x, int y, int x0, int y0, int xf, int yf, 
 			for (int l = 0; l < image_width; l++)
 			{
 				colorscr = pSrc->GetPixel(l, k);
-				if (colorscr.GetRed() == key.GetRed() && colorscr.GetBlue() == key.GetBlue() && colorscr.GetGreen() == key.GetGreen())
+				if (colorscr.GetRed() == key.GetRed() || colorscr.GetBlue() == key.GetBlue() || colorscr.GetGreen() == key.GetGreen())
 				{
 					continue;
 				}
@@ -41,11 +41,11 @@ void Canvas::Bitblt(Canvas* pSrc, int x, int y, int x0, int y0, int xf, int yf, 
 			for (int i = 0; i < imagenx; i++)
 			{
 				colorscr = pSrc->GetPixel(i, j);
-				if (colorscr.GetRed() == key.GetRed() && colorscr.GetBlue() == key.GetBlue() && colorscr.GetGreen() == key.GetGreen())
+				if (colorscr.GetRed() == key.GetRed() || colorscr.GetBlue() == key.GetBlue() || colorscr.GetGreen() == key.GetGreen())
 				{
 					continue;
 				}
-				this->PutPixel(x0 + i, y0 + j, colorscr);
+				this->PutPixel(x + i, y + j, colorscr);
 			}
 		}
 	}
@@ -135,7 +135,7 @@ void Canvas::DrawElipse(int xcenter, int ycenter, int height, int width, Color c
 {
 	int A = width * width;
 	int B = height * height;
-	int focoa = 4 * A, 
+	int focoa = 4 * A;
 	int focob = 4 * B;
 	int x, y, error;
 	for (x = 0, y = height, error = 2 * B + A*(1 - 2 * height); B*x <= A*y; x++)
